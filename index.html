@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALERT: Wykryto wirusa!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --red: #ff2244;
+    --amber: #ffb300;
+    --green: #00e676;
+    --bg-dark: #0a0a0f;
+    --terminal-bg: #0d0d14;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-dark);
+    color: #ccc;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === PHASE 1: SCANNER === */
+  #scanner-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .alert-header {
+    width: 100%;
+    max-width: 680px;
+    background: var(--red);
+    color: #fff;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.15em;
+    font-weight: bold;
+    border-radius: 4px 4px 0 0;
+    animation: flashRed 0.6s ease-in-out infinite alternate;
+    text-transform: uppercase;
+  }
+
+  @keyframes flashRed {
+    from { background: #cc0022; box-shadow: 0 0 20px #ff224488; }
+    to   { background: #ff2244; box-shadow: 0 0 40px #ff2244cc; }
+  }
+
+  .alert-sub {
+    color: #ff8888;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    margin-top: 0.3rem;
+  }
+
+  .terminal {
+    width: 100%;
+    max-width: 680px;
+    background: var(--terminal-bg);
+    border: 1px solid #222;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 1.5rem;
+    min-height: 380px;
+  }
+
+  .terminal-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.2rem;
+    align-items: center;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #ff5f56; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #27c93f; }
+  .terminal-title {
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateX(-20px);
+    font-size: 0.7rem;
+    color: #555;
+    letter-spacing: 0.2em;
+  }
+
+  .log-line {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .log-line.show { opacity: 1; transform: none; }
+
+  .log-ok   { color: var(--green); }
+  .log-warn { color: var(--amber); }
+  .log-err  { color: var(--red); }
+  .log-info { color: #7799ff; }
+  .log-dim  { color: #555; }
+
+  .progress-wrap {
+    margin-top: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .progress-wrap.show { opacity: 1; }
+  .progress-label {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .progress-bar-bg {
+    background: #1a1a2e;
+    border-radius: 2px;
+    height: 10px;
+    overflow: hidden;
+    border: 1px solid #2a2a3e;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff2244, #ff6644);
+    border-radius: 2px;
+    transition: width 0.08s linear;
+    position: relative;
+  }
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0; width: 6px;
+    background: #fff8;
+    filter: blur(3px);
+  }
+
+  .virus-found {
+    margin-top: 1.5rem;
+    border: 1px solid var(--red);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    background: #1a0007;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .virus-found.show { opacity: 1; }
+  .virus-name {
+    color: var(--red);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .virus-details {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: #888;
+    line-height: 2;
+  }
+  .virus-details span { color: #aaa; }
+
+  .btn-reveal {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    border: 1px solid var(--red);
+    color: var(--red);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.4s, background 0.2s, color 0.2s, box-shadow 0.2s;
+    display: block;
+  }
+  .btn-reveal.show { opacity: 1; }
+  .btn-reveal:hover {
+    background: var(--red);
+    color: #fff;
+    box-shadow: 0 0 20px #ff224466;
+  }
+
+  /* === PHASE 2: GREETING === */
+  #greeting-phase {
+    display: none;
+    min-height: 100vh;
+    background: #fdf6f0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .petal {
+    position: fixed;
+    top: -40px;
+    font-size: 1.4rem;
+    animation: fall linear infinite;
+    opacity: 0.7;
+    pointer-events: none;
+    user-select: none;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  .greeting-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 3rem 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .greeting-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: #c0a090;
+    text-transform: uppercase;
+    background: #fff0e8;
+    border: 1px solid #e8d0c0;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+
+  .tulip-svg {
+    margin-bottom: 1.5rem;
+    animation: sway 3s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  @keyframes sway {
+    0%,100% { transform: rotate(-4deg); }
+    50%      { transform: rotate(4deg); }
+  }
+
+  .greeting-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    color: #3a1a2a;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .greeting-title em {
+    font-style: italic;
+    color: #c0405a;
+  }
+
+  .greeting-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #a07080;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .greeting-card {
+    max-width: 500px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 4px 40px #c0405a18, 0 1px 4px #c0405a10;
+    border: 1px solid #f0d8e0;
+    text-align: center;
+    position: relative;
+  }
+
+  .greeting-card::before {
+    content: '🌷';
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 8px #c0405a44);
+  }
+
+  .greeting-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: #4a2a38;
+  }
+
+  .greeting-text strong {
+    color: #c0405a;
+    font-weight: 700;
+  }
+
+  .disclaimer {
+    margin-top: 2.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: #c0b0b8;
+    text-align: center;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    max-width: 420px;
+  }
+
+  .heart-pulse {
+    display: inline-block;
+    animation: pulse 1s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50%      { transform: scale(1.3); }
+  }
+
+  /* scan line overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      #00000008 2px,
+      #00000008 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- PHASE 1 -->
+<div id="scanner-phase">
+  <div class="alert-header">
+    ⚠ UWAGA: WYKRYTO ZAGROŻENIE ⚠
+    <div class="alert-sub">VIRUS.TULIPAN.DK8.VARIANT — POZIOM ZAGROŻENIA: KRYTYCZNY</div>
+  </div>
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <span class="terminal-title">TulipanSec™ AntiVirus v2.25 — Skan systemu</span>
+    </div>
+    <div id="log-container"></div>
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-label">
+        <span id="progress-file">Inicjalizacja...</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+    <div class="virus-found" id="virus-found">
+      <div class="virus-name">💀 WIRUS.TULIPAN.DK8 — ZNALEZIONO</div>
+      <div class="virus-details">
+        Sygnatura: <span>TLP-2025-0308-ROMANTYCZNY</span><br>
+        Zaatakowane pliki: <span>serce.exe, emocje.dll, nastroj.sys</span><br>
+        Wektor infekcji: <span>Kontakt z życzeniami Dnia Kobiet</span><br>
+        Ryzyko: <span style="color:#ff8888">NIEODWRACALNA POPRAWA NASTROJU</span>
+      </div>
+    </div>
+    <button class="btn-reveal" id="btn-reveal" onclick="revealGreeting()">
+      → Pokaż co ten „wirus" zrobił z Twoim systemem
+    </button>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div id="greeting-phase">
+  <div class="greeting-inner">
+    <div class="greeting-badge">// Wirus.Tulipan.DK8 — raport końcowy //</div>
+
+    <svg class="tulip-svg" width="80" height="120" viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- stem -->
+      <path d="M40 115 Q38 85 40 60" stroke="#5a8a4a" stroke-width="3" stroke-linecap="round"/>
+      <!-- leaf -->
+      <path d="M40 85 Q28 72 22 65 Q32 68 40 85Z" fill="#6aaa5a"/>
+      <!-- petals -->
+      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8405a" opacity="0.9"/>
+      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8405a" transform="rotate(30 40 40)" opacity="0.85"/>
+      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#d03055" transform="rotate(-30 40 40)" opacity="0.85"/>
+      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8607a" transform="rotate(60 40 40)" opacity="0.7"/>
+      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8607a" transform="rotate(-60 40 40)" opacity="0.7"/>
+      <!-- center -->
+      <circle cx="40" cy="36" r="7" fill="#ffd0c0" opacity="0.6"/>
+    </svg>
+
+    <h1 class="greeting-title">Wesołego<br><em>Dnia Kobiet!</em></h1>
+    <p class="greeting-sub">Gratulacje — Twój system został pomyślnie zainfekowany 🌷</p>
+
+    <div class="greeting-card">
+      <p class="greeting-text">
+        Wirus <strong>TULIPAN.DK8</strong> zaatakował Twój system<br>
+        i wprowadził do niego:<br><br>
+        ✦ dawkę uśmiechu nie do usunięcia<br>
+        ✦ plik <em>dobry_dzień.exe</em> uruchamiający się automatycznie<br>
+        ✦ 365 bajtów radości (co najmniej)<br><br>
+        Antywirusem jest tylko jedno —<br>
+        <strong>poczuć się dziś wyjątkowo.</strong><br><br>
+        <span class="heart-pulse">❤</span>&nbsp; Wszystkiego najpiękniejszego!
+      </p>
+    </div>
+
+    <p class="disclaimer">
+      [RAPORT KOŃCOWY: TulipanSec™]<br>
+      Zagrożenie neutralizowane przez: życzliwość, kwiaty i chwilę uśmiechu.<br>
+      System działa lepiej niż przed skanem.<br>
+      Brak konieczności kwarantanny.
+    </p>
+  </div>
+</div>
+
+<script>
+const logs = [
+  { text: '> TulipanSec™ AntiVirus v2.25 — inicjalizacja...', cls: 'log-dim', delay: 0 },
+  { text: '> Ładowanie bazy sygnatur wirusów... [OK]', cls: 'log-ok', delay: 600 },
+  { text: '> Uruchamianie skanera głębokiego... [OK]', cls: 'log-ok', delay: 1100 },
+  { text: '> Skanowanie katalogów systemowych...', cls: 'log-info', delay: 1700 },
+  { text: '  C:\\Users\\ty\\Documents\\        [OK]', cls: 'log-dim', delay: 2200 },
+  { text: '  C:\\Program Files\\               [OK]', cls: 'log-dim', delay: 2600 },
+  { text: '  C:\\Windows\\System32\\            [OK]', cls: 'log-dim', delay: 3000 },
+  { text: '> Wykryto anomalię w: serce.exe', cls: 'log-warn', delay: 3600 },
+  { text: '> Wykryto anomalię w: emocje.dll', cls: 'log-warn', delay: 4000 },
+  { text: '> Uruchamianie modułu heurystycznego...', cls: 'log-info', delay: 4600 },
+  { text: '> Analiza wzorców zachowań... [PODEJRZANE]', cls: 'log-warn', delay: 5200 },
+  { text: '  nastroj.sys: nieautoryzowany wzrost pozytywnych emocji', cls: 'log-warn', delay: 5700 },
+  { text: '  serce.exe: skoki aktywności o 300%', cls: 'log-warn', delay: 6100 },
+  { text: '> Identyfikacja sygnatury...', cls: 'log-info', delay: 6800 },
+  { text: '  Dopasowanie: WIRUS.TULIPAN.DK8 — pewność: 99.97%', cls: 'log-err', delay: 7400 },
+  { text: '> !! KRYTYCZNE ZAGROŻENIE WYKRYTE !!', cls: 'log-err', delay: 8100 },
+];
+
+const PROGRESS_FILES = [
+  'C:\\serce.exe', 'C:\\emocje.dll', 'C:\\nastroj.sys',
+  'C:\\marzenia.dat', 'C:\\wspomnienia.bak', 'C:\\usmiech.dll',
+];
+
+let logIdx = 0;
+const container = document.getElementById('log-container');
+const progressWrap = document.getElementById('progress-wrap');
+const progressFill = document.getElementById('progress-fill');
+const progressFile = document.getElementById('progress-file');
+const progressPct = document.getElementById('progress-pct');
+const virusFound = document.getElementById('virus-found');
+const btnReveal = document.getElementById('btn-reveal');
+
+function showNextLog() {
+  if (logIdx >= logs.length) return;
+  const l = logs[logIdx];
+  const div = document.createElement('div');
+  div.className = `log-line ${l.cls}`;
+  div.textContent = l.text;
+  container.appendChild(div);
+  requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add('show')));
+  logIdx++;
+
+  if (logIdx === 9) {
+    // start progress bar
+    setTimeout(() => {
+      progressWrap.classList.add('show');
+      animateProgress(0);
+    }, 500);
+  }
+
+  if (logIdx < logs.length) {
+    const nextDelay = logs[logIdx].delay - l.delay;
+    setTimeout(showNextLog, Math.max(nextDelay, 80));
+  } else {
+    // after last log
+    setTimeout(() => {
+      virusFound.classList.add('show');
+    }, 700);
+    setTimeout(() => {
+      btnReveal.classList.add('show');
+    }, 1400);
+  }
+}
+
+function animateProgress(pct) {
+  if (pct > 100) return;
+  const fileIdx = Math.floor((pct / 100) * PROGRESS_FILES.length);
+  progressFile.textContent = PROGRESS_FILES[Math.min(fileIdx, PROGRESS_FILES.length - 1)];
+  progressPct.textContent = pct + '%';
+  progressFill.style.width = pct + '%';
+  if (pct < 100) {
+    setTimeout(() => animateProgress(pct + 1), 55);
+  }
+}
+
+// Start
+setTimeout(showNextLog, 300);
+
+// === REVEAL ===
+function revealGreeting() {
+  const phase1 = document.getElementById('scanner-phase');
+  const phase2 = document.getElementById('greeting-phase');
+
+  phase1.style.opacity = '1';
+  phase1.style.transition = 'opacity 0.6s';
+  setTimeout(() => { phase1.style.opacity = '0'; }, 50);
+  setTimeout(() => {
+    phase1.style.display = 'none';
+    phase2.style.display = 'block';
+    phase2.style.opacity = '0';
+    phase2.style.transition = 'opacity 0.8s';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      phase2.style.opacity = '1';
+      spawnPetals();
+    }));
+  }, 650);
+}
+
+function spawnPetals() {
+  const emojis = ['🌷','🌸','🌺','🌼','✿'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+    p.style.animationDuration = (4 + Math.random() * 5) + 's';
+    p.style.animationDelay = (Math.random() * 4) + 's';
+    p.style.opacity = 0.5 + Math.random() * 0.5;
+    document.body.appendChild(p);
+  }
+}
+</script>
+</body>
+</html>
