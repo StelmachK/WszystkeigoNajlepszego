@@ -3,72 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALERT: Wykryto wirusa!</title>
+<title>Aktualizacja systemu Robert OS v34.0</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&display=swap');
 
   :root {
-    --red: #ff2244;
-    --amber: #ffb300;
+    --bg: #001a2e;
+    --bg-darker: #000d1a;
+    --accent: #00b8ff;
+    --accent-dim: #0078a8;
+    --amber: #ffaa00;
     --green: #00e676;
-    --bg-dark: #0a0a0f;
-    --terminal-bg: #0d0d14;
+    --red: #ff5555;
+    --text: #c8e0ff;
+    --text-dim: #5a7a9a;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--bg-dark);
-    color: #ccc;
-    font-family: 'Share Tech Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* === PHASE 1: SCANNER === */
-  #scanner-phase {
+  /* === PHASE 1: UPDATE === */
+  #update-phase {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
     padding: 2rem 1rem;
+    background: linear-gradient(180deg, #001a2e 0%, #000d1a 100%);
   }
 
-  .alert-header {
+  .update-header {
     width: 100%;
     max-width: 680px;
-    background: var(--red);
-    color: #fff;
+    background: var(--accent);
+    color: #001a2e;
     text-align: center;
     padding: 1rem 1.5rem;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     letter-spacing: 0.15em;
-    font-weight: bold;
-    border-radius: 4px 4px 0 0;
-    animation: flashRed 0.6s ease-in-out infinite alternate;
+    font-weight: 700;
+    border-radius: 6px 6px 0 0;
     text-transform: uppercase;
   }
 
-  @keyframes flashRed {
-    from { background: #cc0022; box-shadow: 0 0 20px #ff224488; }
-    to   { background: #ff2244; box-shadow: 0 0 40px #ff2244cc; }
-  }
-
-  .alert-sub {
-    color: #ff8888;
-    font-size: 0.75rem;
-    letter-spacing: 0.3em;
+  .update-sub {
+    color: #003a5a;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
     margin-top: 0.3rem;
+    font-weight: 400;
   }
 
   .terminal {
     width: 100%;
     max-width: 680px;
-    background: var(--terminal-bg);
-    border: 1px solid #222;
+    background: var(--bg-darker);
+    border: 1px solid #00385a;
     border-top: none;
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 6px 6px;
     padding: 1.5rem;
     min-height: 380px;
   }
@@ -78,6 +78,8 @@
     gap: 6px;
     margin-bottom: 1.2rem;
     align-items: center;
+    border-bottom: 1px solid #00385a;
+    padding-bottom: 0.8rem;
   }
   .dot { width: 12px; height: 12px; border-radius: 50%; }
   .dot-r { background: #ff5f56; }
@@ -88,7 +90,7 @@
     margin-right: auto;
     transform: translateX(-20px);
     font-size: 0.7rem;
-    color: #555;
+    color: var(--text-dim);
     letter-spacing: 0.2em;
   }
 
@@ -106,8 +108,8 @@
   .log-ok   { color: var(--green); }
   .log-warn { color: var(--amber); }
   .log-err  { color: var(--red); }
-  .log-info { color: #7799ff; }
-  .log-dim  { color: #555; }
+  .log-info { color: var(--accent); }
+  .log-dim  { color: var(--text-dim); }
 
   .progress-wrap {
     margin-top: 1.2rem;
@@ -117,22 +119,22 @@
   .progress-wrap.show { opacity: 1; }
   .progress-label {
     font-size: 0.75rem;
-    color: #666;
-    margin-bottom: 4px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
   }
   .progress-bar-bg {
-    background: #1a1a2e;
-    border-radius: 2px;
+    background: #002a4a;
+    border-radius: 3px;
     height: 10px;
     overflow: hidden;
-    border: 1px solid #2a2a3e;
+    border: 1px solid #00385a;
   }
   .progress-bar-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #ff2244, #ff6644);
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
     border-radius: 2px;
     transition: width 0.08s linear;
     position: relative;
@@ -140,85 +142,95 @@
   .progress-bar-fill::after {
     content: '';
     position: absolute;
-    right: 0; top: 0; bottom: 0; width: 6px;
-    background: #fff8;
-    filter: blur(3px);
+    right: 0; top: 0; bottom: 0; width: 8px;
+    background: #ffffff88;
+    filter: blur(4px);
   }
 
-  .virus-found {
+  .install-summary {
     margin-top: 1.5rem;
-    border: 1px solid var(--red);
+    border: 1px solid var(--accent);
     border-radius: 4px;
     padding: 1rem 1.2rem;
-    background: #1a0007;
+    background: #00223a;
     opacity: 0;
     transition: opacity 0.5s;
   }
-  .virus-found.show { opacity: 1; }
-  .virus-name {
-    color: var(--red);
-    font-size: 1.1rem;
+  .install-summary.show { opacity: 1; }
+  .summary-title {
+    color: var(--accent);
+    font-size: 1rem;
     letter-spacing: 0.15em;
-    font-weight: bold;
+    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
-  .virus-details {
+  .summary-details {
     margin-top: 0.6rem;
     font-size: 0.75rem;
-    color: #888;
+    color: var(--text-dim);
     line-height: 2;
   }
-  .virus-details span { color: #aaa; }
+  .summary-details span { color: var(--text); }
 
   .btn-reveal {
     margin-top: 1.5rem;
     width: 100%;
     padding: 0.9rem;
     background: transparent;
-    border: 1px solid var(--red);
-    color: var(--red);
-    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.9rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 4px;
     opacity: 0;
     transition: opacity 0.4s, background 0.2s, color 0.2s, box-shadow 0.2s;
-    display: block;
+    font-weight: 700;
   }
   .btn-reveal.show { opacity: 1; }
   .btn-reveal:hover {
-    background: var(--red);
-    color: #fff;
-    box-shadow: 0 0 20px #ff224466;
+    background: var(--accent);
+    color: #001a2e;
+    box-shadow: 0 0 30px #00b8ff88;
   }
 
-  /* === PHASE 2: GREETING === */
-  #greeting-phase {
+  /* === PHASE 2: BIRTHDAY === */
+  #birthday-phase {
     display: none;
     min-height: 100vh;
-    background: #fdf6f0;
+    background: linear-gradient(135deg, #1a0f1f 0%, #2a1810 50%, #3a1a0a 100%);
     position: relative;
     overflow: hidden;
   }
 
-  .petal {
+  .bg-glow {
     position: fixed;
-    top: -40px;
-    font-size: 1.4rem;
-    animation: fall linear infinite;
-    opacity: 0.7;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 20% 30%, #ffaa0033 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, #ff668844 0%, transparent 50%);
+  }
+
+  .confetti {
+    position: fixed;
+    top: -30px;
+    width: 10px;
+    height: 14px;
+    animation: confettiFall linear infinite;
     pointer-events: none;
     user-select: none;
   }
-  @keyframes fall {
-    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
   }
 
-  .greeting-inner {
+  .bday-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -229,106 +241,174 @@
     z-index: 2;
   }
 
-  .greeting-badge {
-    font-family: 'Share Tech Mono', monospace;
+  .bday-badge {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.3em;
-    color: #c0a090;
+    color: #ffaa00;
     text-transform: uppercase;
-    background: #fff0e8;
-    border: 1px solid #e8d0c0;
-    padding: 0.3rem 0.9rem;
+    background: #2a1810cc;
+    border: 1px solid #ffaa0055;
+    padding: 0.4rem 1rem;
     border-radius: 20px;
     margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
   }
 
-  .tulip-svg {
-    margin-bottom: 1.5rem;
-    animation: sway 3s ease-in-out infinite;
+  .cake-svg {
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 10px 30px #ff664488);
+    animation: floaty 3s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%,100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-8px) rotate(1deg); }
+  }
+
+  .flame {
+    animation: flicker 0.3s ease-in-out infinite alternate;
     transform-origin: bottom center;
   }
-  @keyframes sway {
-    0%,100% { transform: rotate(-4deg); }
-    50%      { transform: rotate(4deg); }
+  @keyframes flicker {
+    from { transform: scaleY(1) scaleX(1); opacity: 1; }
+    to   { transform: scaleY(1.15) scaleX(0.9); opacity: 0.8; }
   }
 
-  .greeting-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 6vw, 3.2rem);
-    color: #3a1a2a;
+  .bday-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.4rem, 7vw, 4rem);
+    color: #fff5e6;
     text-align: center;
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
-  .greeting-title em {
+  .bday-title em {
     font-style: italic;
-    color: #c0405a;
+    background: linear-gradient(135deg, #ffaa00, #ff6644);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
-  .greeting-sub {
-    font-family: 'Playfair Display', serif;
+  .bday-sub {
+    font-family: 'Fraunces', serif;
     font-style: italic;
-    font-size: 1rem;
-    color: #a07080;
+    font-size: 1.05rem;
+    color: #d8b090;
     margin-bottom: 2.5rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
+    text-align: center;
   }
 
-  .greeting-card {
-    max-width: 500px;
-    background: #fff;
+  .bday-card {
+    max-width: 520px;
+    width: 100%;
+    background: #fff8ee;
     border-radius: 16px;
-    padding: 2rem 2.5rem;
-    box-shadow: 0 4px 40px #c0405a18, 0 1px 4px #c0405a10;
-    border: 1px solid #f0d8e0;
-    text-align: center;
+    padding: 2.2rem 2.2rem;
+    box-shadow: 0 20px 60px #00000066, 0 4px 12px #00000044;
+    border: 1px solid #e8d0a8;
     position: relative;
   }
 
-  .greeting-card::before {
-    content: '🌷';
+  .bday-card::before {
+    content: '34';
     position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2rem;
-    filter: drop-shadow(0 2px 8px #c0405a44);
+    top: -30px;
+    right: -20px;
+    font-family: 'Fraunces', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    font-style: italic;
+    background: linear-gradient(135deg, #ffaa00, #ff6644);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px #ff664488);
+    transform: rotate(8deg);
   }
 
-  .greeting-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    line-height: 1.85;
-    color: #4a2a38;
-  }
-
-  .greeting-text strong {
-    color: #c0405a;
+  .bday-salute {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    color: #8a4020;
+    font-style: italic;
+    margin-bottom: 1rem;
     font-weight: 700;
   }
 
-  .disclaimer {
-    margin-top: 2.5rem;
-    font-family: 'Share Tech Mono', monospace;
+  .bday-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #4a2818;
+  }
+
+  .bday-text strong {
+    color: #c0503a;
+    font-weight: 700;
+  }
+
+  .bday-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+  .bday-text li {
+    padding: 0.3rem 0 0.3rem 1.8rem;
+    position: relative;
+  }
+  .bday-text li::before {
+    content: '🎁';
+    position: absolute;
+    left: 0;
+    font-size: 0.9rem;
+  }
+  .bday-text li:nth-child(2)::before { content: '🍺'; }
+  .bday-text li:nth-child(3)::before { content: '🇬🇧'; }
+  .bday-text li:nth-child(4)::before { content: '💪'; }
+
+  .signature {
+    margin-top: 1.8rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed #d8b090;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    text-align: right;
+    color: #8a4020;
+    font-size: 1rem;
+  }
+  .signature strong {
+    color: #c0503a;
+    font-weight: 700;
+  }
+
+  .footer-note {
+    margin-top: 2rem;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
-    color: #c0b0b8;
+    color: #b08868;
     text-align: center;
-    letter-spacing: 0.1em;
-    line-height: 1.8;
-    max-width: 420px;
+    letter-spacing: 0.12em;
+    line-height: 1.9;
+    max-width: 460px;
+    opacity: 0.8;
   }
 
-  .heart-pulse {
+  .cheers {
     display: inline-block;
-    animation: pulse 1s ease-in-out infinite;
+    animation: cheers 1.5s ease-in-out infinite;
   }
-  @keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50%      { transform: scale(1.3); }
+  @keyframes cheers {
+    0%,100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
   }
 
-  /* scan line overlay */
-  body::after {
+  /* scan line overlay (phase 1 only) */
+  #update-phase::after {
     content: '';
     position: fixed;
     inset: 0;
@@ -336,29 +416,28 @@
       0deg,
       transparent,
       transparent 2px,
-      #00000008 2px,
-      #00000008 4px
+      #ffffff04 2px,
+      #ffffff04 4px
     );
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.4;
   }
 </style>
 </head>
 <body>
 
 <!-- PHASE 1 -->
-<div id="scanner-phase">
-  <div class="alert-header">
-    ⚠ UWAGA: WYKRYTO ZAGROŻENIE ⚠
-    <div class="alert-sub">VIRUS.TULIPAN.DK8.VARIANT — POZIOM ZAGROŻENIA: KRYTYCZNY</div>
+<div id="update-phase">
+  <div class="update-header">
+    ⟳ WYMAGANA AKTUALIZACJA SYSTEMU ⟳
+    <div class="update-sub">ROBERT OS v33.9 → v34.0 — AKTUALIZACJA KRYTYCZNA</div>
   </div>
   <div class="terminal">
     <div class="terminal-bar">
       <div class="dot dot-r"></div>
       <div class="dot dot-y"></div>
       <div class="dot dot-g"></div>
-      <span class="terminal-title">TulipanSec™ AntiVirus v2.25 — Skan systemu</span>
+      <span class="terminal-title">RobertUpdate™ — nie można anulować</span>
     </div>
     <div id="log-container"></div>
     <div class="progress-wrap" id="progress-wrap">
@@ -370,89 +449,130 @@
         <div class="progress-bar-fill" id="progress-fill"></div>
       </div>
     </div>
-    <div class="virus-found" id="virus-found">
-      <div class="virus-name">💀 WIRUS.TULIPAN.DK8 — ZNALEZIONO</div>
-      <div class="virus-details">
-        Sygnatura: <span>TLP-2025-0308-ROMANTYCZNY</span><br>
-        Zaatakowane pliki: <span>serce.exe, emocje.dll, nastroj.sys</span><br>
-        Wektor infekcji: <span>Kontakt z życzeniami Dnia Kobiet</span><br>
-        Ryzyko: <span style="color:#ff8888">NIEODWRACALNA POPRAWA NASTROJU</span>
+    <div class="install-summary" id="install-summary">
+      <div class="summary-title">✓ AKTUALIZACJA ZAKOŃCZONA — ROBERT OS v34.0</div>
+      <div class="summary-details">
+        Zainstalowane moduły: <span>zrzędzenie.dll, ból_pleców.sys, sen_o_22.exe</span><br>
+        Nowe funkcje: <span>„za moich czasów...", kawa przed pracą obowiązkowa</span><br>
+        Odinstalowane: <span>wytrzymałość_po_dwóch_piwach.bak</span><br>
+        Administrator: <span>Malwina (uprawnienia pełne, nie do zmiany)</span><br>
+        Procesy w tle: <span>Ola.kid — priorytet MAKSYMALNY</span><br>
+        Lokalizacja serwera: <span style="color:#ffaa00">🇬🇧 UK-deszcz-region-01</span>
       </div>
     </div>
-    <button class="btn-reveal" id="btn-reveal" onclick="revealGreeting()">
-      → Pokaż co ten „wirus" zrobił z Twoim systemem
+    <button class="btn-reveal" id="btn-reveal" onclick="revealBirthday()">
+      → Wyświetl informacje o nowej wersji
     </button>
   </div>
 </div>
 
 <!-- PHASE 2 -->
-<div id="greeting-phase">
-  <div class="greeting-inner">
-    <div class="greeting-badge">// Wirus.Tulipan.DK8 — raport końcowy //</div>
+<div id="birthday-phase">
+  <div class="bg-glow"></div>
+  <div class="bday-inner">
+    <div class="bday-badge">// Robert OS v34.0 — changelog //</div>
 
-    <svg class="tulip-svg" width="80" height="120" viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- stem -->
-      <path d="M40 115 Q38 85 40 60" stroke="#5a8a4a" stroke-width="3" stroke-linecap="round"/>
-      <!-- leaf -->
-      <path d="M40 85 Q28 72 22 65 Q32 68 40 85Z" fill="#6aaa5a"/>
-      <!-- petals -->
-      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8405a" opacity="0.9"/>
-      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8405a" transform="rotate(30 40 40)" opacity="0.85"/>
-      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#d03055" transform="rotate(-30 40 40)" opacity="0.85"/>
-      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8607a" transform="rotate(60 40 40)" opacity="0.7"/>
-      <ellipse cx="40" cy="40" rx="10" ry="22" fill="#e8607a" transform="rotate(-60 40 40)" opacity="0.7"/>
-      <!-- center -->
-      <circle cx="40" cy="36" r="7" fill="#ffd0c0" opacity="0.6"/>
+    <svg class="cake-svg" width="140" height="160" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- candle flames -->
+      <g class="flame">
+        <ellipse cx="55" cy="22" rx="4" ry="8" fill="#ffaa00"/>
+        <ellipse cx="55" cy="24" rx="2.5" ry="5" fill="#fff5a0"/>
+      </g>
+      <g class="flame" style="animation-delay: 0.1s">
+        <ellipse cx="70" cy="18" rx="4" ry="8" fill="#ff8800"/>
+        <ellipse cx="70" cy="20" rx="2.5" ry="5" fill="#fff5a0"/>
+      </g>
+      <g class="flame" style="animation-delay: 0.2s">
+        <ellipse cx="85" cy="22" rx="4" ry="8" fill="#ffaa00"/>
+        <ellipse cx="85" cy="24" rx="2.5" ry="5" fill="#fff5a0"/>
+      </g>
+      <!-- candles -->
+      <rect x="53" y="30" width="4" height="28" fill="#e8a0a0"/>
+      <rect x="68" y="28" width="4" height="30" fill="#a0c0e8"/>
+      <rect x="83" y="30" width="4" height="28" fill="#c0e8a0"/>
+      <!-- top tier -->
+      <rect x="40" y="58" width="60" height="28" rx="3" fill="#ffd4a0"/>
+      <!-- drips -->
+      <path d="M45 86 Q45 94 50 92 L50 86 Z" fill="#c04030"/>
+      <path d="M65 86 Q65 96 72 93 L72 86 Z" fill="#c04030"/>
+      <path d="M88 86 Q88 92 93 91 L93 86 Z" fill="#c04030"/>
+      <!-- bottom tier -->
+      <rect x="25" y="92" width="90" height="40" rx="4" fill="#ffbb80"/>
+      <!-- decorations -->
+      <circle cx="40" cy="108" r="3" fill="#c04030"/>
+      <circle cx="55" cy="115" r="3" fill="#a0c0e8"/>
+      <circle cx="70" cy="108" r="3" fill="#ffaa00"/>
+      <circle cx="85" cy="115" r="3" fill="#c04030"/>
+      <circle cx="100" cy="108" r="3" fill="#a0c0e8"/>
+      <!-- plate -->
+      <ellipse cx="70" cy="136" rx="55" ry="5" fill="#8a4020" opacity="0.6"/>
+      <rect x="18" y="130" width="104" height="6" rx="3" fill="#a05830"/>
     </svg>
 
-    <h1 class="greeting-title">Wesołego<br><em>Dnia Kobiet!</em></h1>
-    <p class="greeting-sub">Gratulacje — Twój system został pomyślnie zainfekowany 🌷</p>
+    <h1 class="bday-title">Sto <em>lat</em>,<br>Robercie!</h1>
+    <p class="bday-sub">Oficjalnie bliżej czterdziestki niż trzydziestki 🎉</p>
 
-    <div class="greeting-card">
-      <p class="greeting-text">
-        Wirus <strong>TULIPAN.DK8</strong> zaatakował Twój system<br>
-        i wprowadził do niego:<br><br>
-        ✦ dawkę uśmiechu nie do usunięcia<br>
-        ✦ plik <em>dobry_dzień.exe</em> uruchamiający się automatycznie<br>
-        ✦ 365 bajtów radości (co najmniej)<br><br>
-        Antywirusem jest tylko jedno —<br>
-        <strong>poczuć się dziś wyjątkowo.</strong><br><br>
-        <span class="heart-pulse">❤</span>&nbsp; Wszystkiego najpiękniejszego!
-      </p>
+    <div class="bday-card">
+      <div class="bday-salute">Cześć Robert!</div>
+      <div class="bday-text">
+        Z okazji <strong>34 urodzin</strong> życzymy Ci wszystkiego,
+        co najlepsze — a konkretnie:
+
+        <ul>
+          <li>żeby Ola myślała, że tata jest najfajniejszy na świecie jak najdłużej,</li>
+          <li>żebyś miał siłę wypić piwo bez zasypiania w połowie,</li>
+          <li>żeby słońce pokazało się w UK chociaż raz w tym tygodniu,</li>
+          <li>i żebyś zdrowy, pogodny i odporny na zrzędzenie dotrzymał do wersji 35.0!</li>
+        </ul>
+
+        Malwinie też buziak — bo wiemy, że to ona naprawdę zarządza tym systemem. 😄
+      </div>
+      <div class="signature">
+        — Ściskamy mocno,<br>
+        <strong>Kacper i Karolina</strong> <span class="cheers">🥂</span>
+      </div>
     </div>
 
-    <p class="disclaimer">
-      [RAPORT KOŃCOWY: TulipanSec™]<br>
-      Zagrożenie neutralizowane przez: życzliwość, kwiaty i chwilę uśmiechu.<br>
-      System działa lepiej niż przed skanem.<br>
-      Brak konieczności kwarantanny.
+    <p class="footer-note">
+      [ROBERT OS v34.0 — raport aktualizacji]<br>
+      Stabilność: wysoka • Humor: nadal działa • Restart niezalecany<br>
+      Gwarancja: kolejne 365 dni w dobrej formie
     </p>
   </div>
 </div>
 
 <script>
 const logs = [
-  { text: '> TulipanSec™ AntiVirus v2.25 — inicjalizacja...', cls: 'log-dim', delay: 0 },
-  { text: '> Ładowanie bazy sygnatur wirusów... [OK]', cls: 'log-ok', delay: 600 },
-  { text: '> Uruchamianie skanera głębokiego... [OK]', cls: 'log-ok', delay: 1100 },
-  { text: '> Skanowanie katalogów systemowych...', cls: 'log-info', delay: 1700 },
-  { text: '  C:\\Users\\ty\\Documents\\        [OK]', cls: 'log-dim', delay: 2200 },
-  { text: '  C:\\Program Files\\               [OK]', cls: 'log-dim', delay: 2600 },
-  { text: '  C:\\Windows\\System32\\            [OK]', cls: 'log-dim', delay: 3000 },
-  { text: '> Wykryto anomalię w: serce.exe', cls: 'log-warn', delay: 3600 },
-  { text: '> Wykryto anomalię w: emocje.dll', cls: 'log-warn', delay: 4000 },
-  { text: '> Uruchamianie modułu heurystycznego...', cls: 'log-info', delay: 4600 },
-  { text: '> Analiza wzorców zachowań... [PODEJRZANE]', cls: 'log-warn', delay: 5200 },
-  { text: '  nastroj.sys: nieautoryzowany wzrost pozytywnych emocji', cls: 'log-warn', delay: 5700 },
-  { text: '  serce.exe: skoki aktywności o 300%', cls: 'log-warn', delay: 6100 },
-  { text: '> Identyfikacja sygnatury...', cls: 'log-info', delay: 6800 },
-  { text: '  Dopasowanie: WIRUS.TULIPAN.DK8 — pewność: 99.97%', cls: 'log-err', delay: 7400 },
-  { text: '> !! KRYTYCZNE ZAGROŻENIE WYKRYTE !!', cls: 'log-err', delay: 8100 },
+  { text: '> RobertUpdate™ — łączenie z serwerem...', cls: 'log-dim', delay: 0 },
+  { text: '> Wykryto starszą wersję systemu: v33.9', cls: 'log-info', delay: 500 },
+  { text: '> Pobieranie pakietu „34_lata.patch" (365 dni danych)...', cls: 'log-info', delay: 1100 },
+  { text: '  [=======] 512 MB / 512 MB      [OK]', cls: 'log-ok', delay: 1900 },
+  { text: '> Weryfikacja podpisu cyfrowego...', cls: 'log-info', delay: 2400 },
+  { text: '  Wydawca: Życie Sp. z o.o.      [OK]', cls: 'log-ok', delay: 2900 },
+  { text: '> Próba zachowania kopii: „mlodosc.bak"', cls: 'log-warn', delay: 3500 },
+  { text: '  ✗ Plik uszkodzony — nie można odzyskać', cls: 'log-err', delay: 4100 },
+  { text: '> Instalowanie nowych modułów...', cls: 'log-info', delay: 4800 },
+  { text: '  + zrzędzenie.dll                [OK]', cls: 'log-ok', delay: 5300 },
+  { text: '  + ból_pleców.sys                [OK]', cls: 'log-ok', delay: 5700 },
+  { text: '  + sen_o_22:00.exe               [OK]', cls: 'log-ok', delay: 6100 },
+  { text: '  + siwe_włosy.drv                [OK]', cls: 'log-ok', delay: 6500 },
+  { text: '> Wykryto proces rodzicielski: Ola.kid', cls: 'log-warn', delay: 7100 },
+  { text: '  → priorytet ustawiony na MAKSYMALNY', cls: 'log-ok', delay: 7500 },
+  { text: '> Wykryto administratora: Malwina', cls: 'log-warn', delay: 8000 },
+  { text: '  → pełne uprawnienia — nie można zmienić', cls: 'log-ok', delay: 8500 },
+  { text: '> Finalizacja... instalacja ukończona.', cls: 'log-info', delay: 9100 },
+  { text: '> ✓ ROBERT OS v34.0 GOTOWY DO UŻYCIA', cls: 'log-ok', delay: 9700 },
 ];
 
 const PROGRESS_FILES = [
-  'C:\\serce.exe', 'C:\\emocje.dll', 'C:\\nastroj.sys',
-  'C:\\marzenia.dat', 'C:\\wspomnienia.bak', 'C:\\usmiech.dll',
+  'Pobieranie: 34_lata.patch',
+  'Instalacja: zrzędzenie.dll',
+  'Instalacja: ból_pleców.sys',
+  'Instalacja: sen_o_22.exe',
+  'Konfiguracja: Ola.kid',
+  'Konfiguracja: Malwina.admin',
+  'Optymalizacja systemu...',
+  'Finalizacja...',
 ];
 
 let logIdx = 0;
@@ -461,7 +581,7 @@ const progressWrap = document.getElementById('progress-wrap');
 const progressFill = document.getElementById('progress-fill');
 const progressFile = document.getElementById('progress-file');
 const progressPct = document.getElementById('progress-pct');
-const virusFound = document.getElementById('virus-found');
+const installSummary = document.getElementById('install-summary');
 const btnReveal = document.getElementById('btn-reveal');
 
 function showNextLog() {
@@ -474,25 +594,23 @@ function showNextLog() {
   requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add('show')));
   logIdx++;
 
-  if (logIdx === 9) {
-    // start progress bar
+  if (logIdx === 3) {
     setTimeout(() => {
       progressWrap.classList.add('show');
       animateProgress(0);
-    }, 500);
+    }, 400);
   }
 
   if (logIdx < logs.length) {
     const nextDelay = logs[logIdx].delay - l.delay;
     setTimeout(showNextLog, Math.max(nextDelay, 80));
   } else {
-    // after last log
     setTimeout(() => {
-      virusFound.classList.add('show');
+      installSummary.classList.add('show');
     }, 700);
     setTimeout(() => {
       btnReveal.classList.add('show');
-    }, 1400);
+    }, 1500);
   }
 }
 
@@ -503,20 +621,18 @@ function animateProgress(pct) {
   progressPct.textContent = pct + '%';
   progressFill.style.width = pct + '%';
   if (pct < 100) {
-    setTimeout(() => animateProgress(pct + 1), 55);
+    setTimeout(() => animateProgress(pct + 1), 75);
   }
 }
 
-// Start
 setTimeout(showNextLog, 300);
 
-// === REVEAL ===
-function revealGreeting() {
-  const phase1 = document.getElementById('scanner-phase');
-  const phase2 = document.getElementById('greeting-phase');
+function revealBirthday() {
+  const phase1 = document.getElementById('update-phase');
+  const phase2 = document.getElementById('birthday-phase');
 
-  phase1.style.opacity = '1';
   phase1.style.transition = 'opacity 0.6s';
+  phase1.style.opacity = '1';
   setTimeout(() => { phase1.style.opacity = '0'; }, 50);
   setTimeout(() => {
     phase1.style.display = 'none';
@@ -525,23 +641,26 @@ function revealGreeting() {
     phase2.style.transition = 'opacity 0.8s';
     requestAnimationFrame(() => requestAnimationFrame(() => {
       phase2.style.opacity = '1';
-      spawnPetals();
+      spawnConfetti();
     }));
   }, 650);
 }
 
-function spawnPetals() {
-  const emojis = ['🌷','🌸','🌺','🌼','✿'];
-  for (let i = 0; i < 22; i++) {
-    const p = document.createElement('div');
-    p.className = 'petal';
-    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    p.style.left = Math.random() * 100 + 'vw';
-    p.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
-    p.style.animationDuration = (4 + Math.random() * 5) + 's';
-    p.style.animationDelay = (Math.random() * 4) + 's';
-    p.style.opacity = 0.5 + Math.random() * 0.5;
-    document.body.appendChild(p);
+function spawnConfetti() {
+  const colors = ['#ffaa00', '#ff6644', '#00b8ff', '#ff88aa', '#c0e8a0', '#fff5a0'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width = (6 + Math.random() * 8) + 'px';
+    c.style.height = (10 + Math.random() * 10) + 'px';
+    c.style.animationDuration = (3 + Math.random() * 5) + 's';
+    c.style.animationDelay = (Math.random() * 3) + 's';
+    c.style.transform = `rotate(${Math.random() * 360}deg)`;
+    c.style.opacity = 0.7 + Math.random() * 0.3;
+    if (Math.random() > 0.5) c.style.borderRadius = '50%';
+    document.body.appendChild(c);
   }
 }
 </script>
