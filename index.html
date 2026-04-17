@@ -191,11 +191,44 @@
     transition: opacity 0.4s, background 0.2s, color 0.2s, box-shadow 0.2s;
     font-weight: 700;
   }
-  .btn-reveal.show { opacity: 1; }
+  .btn-reveal.show {
+    opacity: 1;
+    animation: btnPulse 1.6s ease-in-out infinite;
+  }
+  .btn-arrow {
+    display: inline-block;
+    animation: arrowBounce 1.2s ease-in-out infinite;
+  }
+  .btn-arrow:last-child { animation-delay: 0.6s; transform: scaleX(-1); }
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(4px); }
+  }
+  .btn-reveal .btn-arrow:last-child {
+    animation-name: arrowBounceReverse;
+  }
+  @keyframes arrowBounceReverse {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(-4px); }
+  }
+  @keyframes btnPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 #00b8ff88, 0 0 20px #00b8ff44;
+      transform: scale(1);
+      background: transparent;
+    }
+    50% {
+      box-shadow: 0 0 0 12px #00b8ff00, 0 0 40px #00b8ffaa;
+      transform: scale(1.02);
+      background: #00b8ff15;
+    }
+  }
   .btn-reveal:hover {
     background: var(--accent);
     color: #001a2e;
     box-shadow: 0 0 30px #00b8ff88;
+    animation: none;
+    transform: scale(1.03);
   }
 
   /* === PHASE 2: BIRTHDAY === */
@@ -461,7 +494,7 @@
       </div>
     </div>
     <button class="btn-reveal" id="btn-reveal" onclick="revealBirthday()">
-      → Wyświetl informacje o nowej wersji
+      <span class="btn-arrow">→</span> Wyświetl informacje o nowej wersji <span class="btn-arrow">←</span>
     </button>
   </div>
 </div>
