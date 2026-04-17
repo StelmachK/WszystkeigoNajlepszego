@@ -592,6 +592,7 @@ function showNextLog() {
   div.textContent = l.text;
   container.appendChild(div);
   requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add('show')));
+  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   logIdx++;
 
   if (logIdx === 3) {
@@ -607,9 +608,11 @@ function showNextLog() {
   } else {
     setTimeout(() => {
       installSummary.classList.add('show');
+      installSummary.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 700);
     setTimeout(() => {
       btnReveal.classList.add('show');
+      btnReveal.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 1500);
   }
 }
